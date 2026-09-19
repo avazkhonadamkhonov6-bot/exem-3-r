@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux"
-import type { AppDispatch } from "../store/store"
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -14,6 +12,7 @@ import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { useAtom } from "jotai/react"
 import { editUserAtom } from "@/pages/Jotai/Jotai"
+import type { FormEvent } from "react"
 
 interface Iprops{
   open:boolean,
@@ -28,8 +27,9 @@ interface Iprops{
 
 export function EditUserAtom({open,setOpen,id,name,desc,setName,setDesc}:Iprops) {
     const [,editUser]=useAtom(editUserAtom)
-    const handelSubmit=(e)=>{
+    const handelSubmit=(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
+        const target=e.target as HTMLFormElement
         const upUser={
             name:name,
             description:desc,
@@ -37,7 +37,7 @@ export function EditUserAtom({open,setOpen,id,name,desc,setName,setDesc}:Iprops)
         }
         editUser(upUser)
         setOpen(false)
-        e.target.reset()
+        target.reset()
     }
 
   return (

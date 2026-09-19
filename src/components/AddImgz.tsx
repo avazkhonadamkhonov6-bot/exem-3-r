@@ -4,29 +4,31 @@ import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { TodoList } from '@/pages/Jotai/Zustand/zustand'
+import type { FormEvent } from 'react'
 
 interface Iprops{
   open:boolean,
   setOpen:(value:boolean)=>void,
-  id:number
+  id:number | string
 }
 
 export default function AddImgz({open,setOpen,id}:Iprops) {
-  const [addITodo]=TodoList((state)=>state)
+  const addITodo=TodoList((state)=>state.addITodo)
 console.log(id);
 
-    const handelSubmit=(e)=>{
+    const handelSubmit=(e:FormEvent<HTMLFormElement>)=>{
             e.preventDefault()
+            const target=e.target as HTMLFormElement
             const formData=new FormData()
-            const files = e.target.image.files
+            const files = target.image.files
             if(files){
               for (const file of files) {
                 formData.append(`Images`,file)
               }
             }
-            addITodo(id,formData)
+            addITodo({id,formData})
             setOpen(false)
-            e.target.reset()
+            target.reset()
         }
 
   return (

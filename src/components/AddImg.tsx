@@ -5,21 +5,24 @@ import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { useDispatch } from 'react-redux'
 import { addImg } from '../api/todo.api'
+import type { FormEvent } from 'react'
+import type { AppDispatch } from '@/store/store'
 
 interface Iprops{
   open:boolean,
   setOpen:(value:boolean)=>void,
-  id:number
+  id:number | string
 }
 
 export default function AddImg({open,setOpen,id}:Iprops) {
-     const dispatch=useDispatch()
+     const dispatch=useDispatch<AppDispatch>()
 console.log(id);
 
-    const handelSubmit=(e)=>{
+    const handelSubmit=(e:FormEvent<HTMLFormElement>)=>{
             e.preventDefault()
+            const target=e.target as HTMLFormElement
             const formData=new FormData()
-            const files = e.target.image.files
+            const files = target.image.files
             if(files){
               for (const file of files) {
                 formData.append(`Images`,file)
@@ -28,7 +31,7 @@ console.log(id);
             dispatch(addImg({id,formData}))
 
             setOpen(false)
-            e.target.reset()
+            target.reset()
         }
 
   return (

@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux"
-import type { AppDispatch } from "../store/store"
 import type { FormEvent } from "react"
 import { Button } from "./ui/button"
 import {
@@ -13,7 +11,6 @@ import {
 import { Field, FieldGroup } from "./ui/field"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
-import { addTodo } from "../api/todo.api"
 import { useAtom } from "jotai/react"
 import { addTodoAtom } from "@/pages/Jotai/Jotai"
 

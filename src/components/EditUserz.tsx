@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux"
-import type { AppDispatch } from "../store/store"
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -13,6 +11,7 @@ import { Field, FieldGroup } from "./ui/field"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { TodoList } from "@/pages/Jotai/Zustand/zustand"
+import type { FormEvent } from "react"
 
 interface Iprops{
   open:boolean,
@@ -26,9 +25,10 @@ interface Iprops{
 
 
 export function EditUserz({open,setOpen,id,name,desc,setName,setDesc}:Iprops) {
-  const [editTodo]=TodoList((state)=>state)
-    const handelSubmit=(e)=>{
+  const editTodo=TodoList((state)=>state.editTodo)
+    const handelSubmit=(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
+        const target=e.target as HTMLFormElement
         const upUser={
             name:name,
             description:desc,
@@ -36,7 +36,7 @@ export function EditUserz({open,setOpen,id,name,desc,setName,setDesc}:Iprops) {
         }
         editTodo(upUser)
         setOpen(false)
-        e.target.reset()
+        target.reset()
     }
 
   return (

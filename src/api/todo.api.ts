@@ -27,7 +27,7 @@ export const getTodo=createAsyncThunk('todo/getTodo',async()=>{
     }
 })
 
-export const deleteTodo=createAsyncThunk('todo/deleteTodo',async(id:Iid,{dispatch})=>{
+export const deleteTodo=createAsyncThunk('todo/deleteTodo',async({id}:Iid,{dispatch})=>{
     try {
         await axios.delete(`${url}?id=${id}`)
         dispatch(getTodo())
@@ -54,7 +54,7 @@ export const addTodo=createAsyncThunk('todo/addTodo',async(formdata:FormData,{di
     }
 })
 
-export const deleteImg=createAsyncThunk('todo/deleteImg',async(id:Iid,{dispatch})=>{
+export const deleteImg=createAsyncThunk('todo/deleteImg',async({id}:Iid,{dispatch})=>{
     try {
         await axios.delete(`${url}/images/${id}`)
         dispatch(getTodo())

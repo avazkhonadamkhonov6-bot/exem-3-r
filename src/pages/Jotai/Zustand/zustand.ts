@@ -1,9 +1,41 @@
-import { error } from './../../../../node_modules/ajv/lib/vocabularies/applicator/dependencies';
-import { getTodo, url } from "@/api/todo.api";
+import { url } from "@/api/todo.api";
 import axios from "axios";
 import { create } from "zustand";
 
-export const TodoList=create((set,get)=>({
+interface Iid{
+    id:number | string
+}
+
+interface IUser{
+    id:number|string,
+    name:string,
+    description:string
+}
+
+interface IForm{
+    id:number|string,
+    formData:FormData
+}
+
+interface IData{
+    id:number,
+    name:string,
+    description:string,
+    isComplete:boolean,
+    images:{id:number,imageName:string}[]
+}
+
+interface TodoStore{
+    data:IData[],
+    getTodo:()=>Promise<void>,
+    deleteTodo:(id:Iid)=>Promise<void>,
+    addTodo:(formData:FormData)=>Promise<void>,
+    editTodo:(upUser:IUser)=>Promise<void>,
+    deleteITodo:(id:Iid)=>Promise<void>,
+    addITodo:(params:IForm)=>Promise<void>
+}
+
+export const TodoList=create<TodoStore>((set,get)=>({
     data:[],
     getTodo:async()=>{
         try {
@@ -13,7 +45,7 @@ export const TodoList=create((set,get)=>({
             console.error(error);
         }
     },
-    deleteTodo:async(id)=>{
+    deleteTodo:async({id}:Iid)=>{
         try {
             await axios.delete(`${url}?id=${id}`)
             get().getTodo()
@@ -21,15 +53,15 @@ export const TodoList=create((set,get)=>({
             console.error(error);
         }
     },
-    addTodo:async(formData)=>{
+    addTodo:async(formData:FormData)=>{
         try {
             await axios.post(url,formData)
-            get(),getTodo()
+            get().getTodo()
         } catch (error) {
             console.error(error);
         }
     },
-    editTodo:async(upUser)=>{
+    editTodo:async(upUser:IUser)=>{
         try {
         await axios.put(url,upUser)
         get().getTodo()            
@@ -37,7 +69,7 @@ export const TodoList=create((set,get)=>({
             console.error(error);
         }
     },
-    deleteITodo:async(id)=>{
+    deleteITodo:async({id}:Iid)=>{
         try {
             await axios.delete(`${url}/images/${id}`)
             get().getTodo()
@@ -45,7 +77,7 @@ export const TodoList=create((set,get)=>({
             console.error(error);
         }
     },
-    addITodo:async(id,formData)=>{
+    addITodo:async({id,formData}:IForm)=>{
         try {
             await axios.post(`${url}/${id}/images`,formData)
             get().getTodo()

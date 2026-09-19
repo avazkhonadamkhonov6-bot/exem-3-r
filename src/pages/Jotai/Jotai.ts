@@ -12,7 +12,7 @@ export const getTodoAtom=atomWithRefresh(async()=>{
     }
 })
 
-export const deleteTodoAtom=atom(null,async(get,set,id)=>{
+export const deleteTodoAtom=atom(null,async(_get,set,id)=>{
     try {
         await axios.delete(`${url}?id=${id}`)
         set(getTodoAtom)
@@ -21,7 +21,7 @@ export const deleteTodoAtom=atom(null,async(get,set,id)=>{
     }
 })
 
-export const addTodoAtom=atom(null,async(get,set,formdata)=>{
+export const addTodoAtom=atom(null,async(_get,set,formdata)=>{
     try {
         await axios.post(url,formdata)
         set(getTodoAtom)
@@ -30,7 +30,7 @@ export const addTodoAtom=atom(null,async(get,set,formdata)=>{
     }
 })
 
-export const editUserAtom=atom(null,async(get,set,upUser)=>{
+export const editUserAtom=atom(null,async(_get,set,upUser)=>{
     try {
         await axios.put(url,upUser)
         set(getTodoAtom)
@@ -39,7 +39,7 @@ export const editUserAtom=atom(null,async(get,set,upUser)=>{
     }
 })
 
-export const deleteImg=atom(null,async(get,set,id)=>{
+export const deleteImg=atom(null,async(_get,set,id)=>{
     try {
         await axios.delete(`${url}/images/${id}`)
         set(getTodoAtom)
@@ -48,7 +48,7 @@ export const deleteImg=atom(null,async(get,set,id)=>{
     }
 })
 
-export const addImgAtom=atom(null,async(get,set,{id,formData})=>{
+export const addImgAtom=atom(null,async(_get,set,{id,formData})=>{
     try {
         console.log(id);
         await axios.post(`${url}/${id}/images`,formData)

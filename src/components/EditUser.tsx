@@ -27,10 +27,11 @@ interface Iprops{
 
 
 export function EditUser({open,setOpen,id,name,desc,setName,setDesc}:Iprops) {
-    const dispatch=useDispatch()
+    const dispatch=useDispatch<AppDispatch>()
 
-    const handelSubmit=(e)=>{
+    const handelSubmit=(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
+        const target=e.target as HTMLFormElement
         const upUser={
             name:name,
             description:desc,
@@ -38,7 +39,7 @@ export function EditUser({open,setOpen,id,name,desc,setName,setDesc}:Iprops) {
         }
         dispatch(editTodo(upUser))
         setOpen(false)
-        e.target.reset()
+        target.reset()
     }
 
   return (

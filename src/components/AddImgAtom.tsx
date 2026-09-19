@@ -5,21 +5,23 @@ import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { useAtom } from 'jotai/react'
 import { addImgAtom } from '@/pages/Jotai/Jotai'
+import type { FormEvent } from 'react'
 
 interface Iprops{
   open:boolean,
   setOpen:(value:boolean)=>void,
-  id:number
+  id:number | string
 }
 
 export default function AddImgAtom({open,setOpen,id}:Iprops) {
     const [,addi]=useAtom(addImgAtom)
 console.log(id);
 
-    const handelSubmit=(e)=>{
+    const handelSubmit=(e:FormEvent<HTMLFormElement>)=>{
             e.preventDefault()
+            const target=e.target as HTMLFormElement
             const formData=new FormData()
-            const files = e.target.image.files
+            const files = target.image.files
             if(files){
               for (const file of files) {
                 formData.append(`Images`,file)
@@ -27,7 +29,7 @@ console.log(id);
             }
             addi({id,formData})
             setOpen(false)
-            e.target.reset()
+            target.reset()
         }
 
   return (
